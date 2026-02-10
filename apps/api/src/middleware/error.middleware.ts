@@ -1,9 +1,21 @@
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
 export function errorHandler(error: Error, _req: Request, res: Response, _next: NextFunction): void {
-  const status = error.message === 'Invalid credentials' || error.message === 'Unauthorized' ? 401 : 400;
+  const message = error.message || 'Internal server error';
+
+  const knownStatusByMessage: Record<string, number> = {
+    'Invalid credentials': 401,
+    Unauthorized: 401,
+    'Token invalide ou expiré': 401,
+    'Compte invalide ou suspendu': 401,
+    'Accès non autorisé': 403,
+    'Utilisateur non trouvé': 404
+  };
+
+  const status = knownStatusByMessage[message] ?? 400;
 
   res.status(status).json({
-    message: error.message || 'Something went wrong'
+    error: message,
+    ...(process.env.NODE_ENV === 'development' && { stack: error.stack })
   });
 }

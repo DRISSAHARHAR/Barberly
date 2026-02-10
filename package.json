@@ -8,9 +8,12 @@
   ],
   "scripts": {
     "dev": "turbo run dev --parallel",
+    "dev:api": "npm run dev -w apps/api",
+    "dev:mobile": "npm run start -w apps/mobile",
     "build": "turbo run build",
     "lint": "turbo run lint",
-    "test": "turbo run test"
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck"
   },
   "devDependencies": {
     "turbo": "^2.0.6"
