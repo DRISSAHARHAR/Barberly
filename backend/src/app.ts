@@ -1,46 +1,47 @@
-import 'dotenv/config';
+import cors from 'cors';
 import express from 'express';
-import passport from './config/passport';
+import rateLimit from 'express-rate-limit';
+import helmet from 'helmet';
 import authRoutes from './routes/auth.routes';
 import userRoutes from './routes/user.routes';
-import { errorHandler } from './middleware/error.middleware';
-import { connectDatabase, disconnectDatabase } from './config/database';
-import { connectRedis, disconnectRedis } from './config/redis';
 
 const app = express();
 
+app.use(helmet());
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL || '*',
+    credentials: true
+  })
+);
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100
+});
+app.use('/api/', limiter);
+
 app.use(express.json());
-app.use(passport.initialize());
+app.use(express.urlencoded({ extended: true }));
+
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
 
 app.get('/health', (_req, res) => {
-  res.status(200).json({ status: 'ok' });
+  res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
-app.use('/auth', authRoutes);
-app.use('/users', userRoutes);
-
-app.use(errorHandler);
-
-const port = Number(process.env.PORT ?? 4000);
-
-async function start(): Promise<void> {
-  await connectDatabase();
-  await connectRedis();
-
-  app.listen(port, () => {
-    console.log(`Backend server running on port ${port}`);
+app.use((err: Error & { status?: number; stack?: string }, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+  console.error(err.stack);
+  res.status(err.status || 500).json({
+    error: err.message || 'Erreur interne du serveur',
+    ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
   });
-}
-
-start().catch((error: Error) => {
-  console.error('Failed to start server:', error.message);
-  process.exit(1);
 });
 
-process.on('SIGTERM', async () => {
-  await disconnectRedis();
-  await disconnectDatabase();
-  process.exit(0);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`🚀 Serveur démarré sur le port ${PORT}`);
 });
 
 export default app;

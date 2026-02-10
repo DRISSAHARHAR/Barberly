@@ -1,22 +1,17 @@
 import { Router } from 'express';
-import { z } from 'zod';
 import { authController } from '../controllers/auth.controller';
-import { validateBody } from '../middleware/validation.middleware';
+import { authenticate } from '../middleware/auth.middleware';
 
 const router = Router();
 
-const registerSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
-  name: z.string().min(1).optional()
-});
-
-const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(1)
-});
-
-router.post('/register', validateBody(registerSchema), authController.register.bind(authController));
-router.post('/login', validateBody(loginSchema), authController.login.bind(authController));
+router.post('/register', authController.register.bind(authController));
+router.post('/verify-otp', authController.verifyOTP.bind(authController));
+router.post('/resend-otp', authController.resendOTP.bind(authController));
+router.post('/login', authController.login.bind(authController));
+router.post('/refresh-token', authController.refreshToken.bind(authController));
+router.post('/logout', authController.logout.bind(authController));
+router.post('/logout-all', authenticate, authController.logoutAll.bind(authController));
+router.post('/forgot-password', authController.forgotPassword.bind(authController));
+router.post('/reset-password', authController.resetPassword.bind(authController));
 
 export default router;

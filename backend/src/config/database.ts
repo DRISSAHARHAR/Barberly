@@ -1,11 +1,13 @@
 import { PrismaClient } from '@prisma/client';
 
-export const prisma = new PrismaClient();
+const globalForPrisma = globalThis as unknown as {
+  prisma: PrismaClient | undefined;
+};
 
-export async function connectDatabase(): Promise<void> {
-  await prisma.$connect();
-}
+export const prisma =
+  globalForPrisma.prisma ??
+  new PrismaClient({
+    log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error']
+  });
 
-export async function disconnectDatabase(): Promise<void> {
-  await prisma.$disconnect();
-}
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
