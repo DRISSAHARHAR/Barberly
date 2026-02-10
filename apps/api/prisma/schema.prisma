@@ -26,6 +26,31 @@ enum Gender {
   OTHER
 }
 
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum BookingServiceMode {
+  HOME
+  SALON
+}
+
+enum BookingPaymentMethod {
+  CASH
+  ONLINE
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
 model User {
   id             String          @id @default(uuid())
   email          String          @unique
@@ -163,19 +188,26 @@ model Notification {
 }
 
 model Booking {
-  id          String   @id @default(uuid())
-  clientId    String
-  barberId    String
-  status      String
-  serviceType String
-  price       Float
-  date        DateTime
-  address     String?
-  notes       String?
-  createdAt   DateTime @default(now())
+  id            String               @id @default(uuid())
+  clientId      String
+  barberId      String
+  status        BookingStatus        @default(PENDING)
+  serviceType   String
+  serviceMode   BookingServiceMode
+  paymentMethod BookingPaymentMethod
+  paymentStatus PaymentStatus        @default(PENDING)
+  price         Float
+  scheduledAt   DateTime
+  address       String?
+  notes         String?
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
 
-  client      User     @relation("ClientBookings", fields: [clientId], references: [id])
-  barber      User     @relation("BarberBookings", fields: [barberId], references: [id])
+  client        User                 @relation("ClientBookings", fields: [clientId], references: [id])
+  barber        User                 @relation("BarberBookings", fields: [barberId], references: [id])
 
+  @@index([clientId, status])
+  @@index([barberId, status])
+  @@index([scheduledAt])
   @@map("bookings")
 }

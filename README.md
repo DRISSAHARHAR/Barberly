@@ -1,14 +1,25 @@
 # Barberly Platform
 
-Barberly est un monorepo qui contient les applications API, mobile et les packages partagés.
+Barberly est une plateforme BeautyTech marocaine de réservation de coiffure/barbier.
+Le produit cible deux modes de service :
+- **À domicile** (HOME)
+- **En salon** (SALON)
 
-## Structure
+## Vision produit
+Digitaliser la réservation coiffure au Maroc avec une expérience simple pour les clients et des revenus plus stables pour les coiffeurs.
+
+## Applications
 - `apps/api`: API Node.js + Express + Prisma + Redis.
-- `apps/mobile`: application React Native (Expo).
-- `apps/web`: scaffold web (Next.js à implémenter).
+- `apps/mobile`: application React Native (Expo) pour clients et barbiers.
+- `apps/web`: scaffold web (marketing + admin à implémenter).
 - `packages/shared-types`: types partagés.
-- `infrastructure/`: IaC et déploiement.
-- `docs/`: documentation projet.
+
+## Fonctionnalités métier déjà modélisées
+- Authentification OTP + sessions JWT
+- Rôles utilisateurs (CLIENT / BARBER / ADMIN)
+- Profils clients et barbiers
+- Services barber, disponibilité, portfolio
+- Réservations avec statut, mode de service (domicile/salon) et mode de paiement (cash/en ligne)
 
 ## Démarrage rapide
 1. Copier les variables d'environnement (`.env.example` et `apps/api/.env.example`).
