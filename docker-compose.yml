@@ -26,11 +26,11 @@ services:
     volumes:
       - redis_data:/data
 
-  backend:
+  api:
     build:
-      context: ./backend
+      context: ./apps/api
       dockerfile: Dockerfile
-    container_name: barber_backend
+    container_name: barber_api
     ports:
       - '3000:3000'
     environment:
@@ -40,7 +40,7 @@ services:
       - JWT_SECRET=your-super-secret-jwt-key-change-in-production
       - JWT_REFRESH_SECRET=your-super-secret-refresh-key-change-in-production
     volumes:
-      - ./backend:/app
+      - ./apps/api:/app
       - /app/node_modules
     depends_on:
       postgres:
