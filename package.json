@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "turbo run dev --parallel",
     "dev:api": "npm run dev -w apps/api",
-    "dev:mobile": "npm run start -w apps/mobile",
+    "dev:mobile": "cd apps/mobile && npm run start",
     "build": "turbo run build",
     "lint": "turbo run lint",
     "test": "turbo run test",

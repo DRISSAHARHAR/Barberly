@@ -27,6 +27,8 @@ Digitaliser la réservation coiffure au Maroc avec une expérience simple pour l
 3. Lancer l'infrastructure: `docker compose up -d --build`
 4. Lancer les apps: `npm run dev`
 
+> Note: `npm run dev:api` lance automatiquement `prisma generate` avant le serveur.
+
 ## Commandes utiles
 - `npm run dev:api` : démarre uniquement l'API.
 - `npm run dev:mobile` : démarre uniquement l'app mobile.
@@ -160,6 +162,13 @@ docker compose exec api sh
 ```sh
 npx prisma generate
 npx prisma migrate deploy
+```
+
+Pour un run local sans Docker (API), vous pouvez aussi forcer manuellement:
+
+```bat
+npm run prisma:generate -w apps/api
+npm run dev:api
 ```
 
 5. Si `postgres` sort immédiatement (container exited), faites un reset volume puis rebuild (cas fréquent après changement de version PostgreSQL):

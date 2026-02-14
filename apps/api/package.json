@@ -9,7 +9,8 @@
     "start": "node dist/app.js",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "predev": "npm run prisma:generate"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
