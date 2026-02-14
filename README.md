@@ -131,3 +131,24 @@ npm run dev:api
 ```
 
 Si l'écran mobile affiche seulement **"Something went wrong"**, appuyez sur **"View error log"** dans Expo Go et copiez l'erreur exacte.
+
+### Erreur `ngrok tunnel took too long to connect`
+Cette erreur vient du mode `--tunnel` (réseau lent, ngrok bloqué par firewall/ISP, proxy entreprise).
+
+Essayez dans cet ordre (dans `apps/mobile`):
+
+```bat
+npx expo start --lan -c
+```
+
+Si `--lan` ne fonctionne pas, essayez:
+
+```bat
+npx expo start --localhost -c
+```
+
+Notes pratiques:
+- **`--lan`**: PC et téléphone doivent être sur le même Wi-Fi.
+- **`--localhost`**: utile surtout avec émulateur Android/iOS local.
+- Désactivez VPN/proxy si possible.
+- Autorisez Node.js / Expo CLI dans le firewall Windows.
