@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - Barberly_1</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="card">
+      <h1>Bienvenue</h1>
+      <p>Connecté en tant que <strong><%= user.email %></strong></p>
+      <p>Authentification web OK ✅</p>
+      <form method="post" action="/logout">
+        <button type="submit">Se déconnecter</button>
+      </form>
+    </main>
+  </body>
+</html>

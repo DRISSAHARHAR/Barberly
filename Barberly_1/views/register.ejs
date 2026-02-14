@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inscription - Barberly_1</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="card">
+      <h1>Inscription</h1>
+      <% if (message) { %>
+      <p class="flash"><%= message %></p>
+      <% } %>
+      <form method="post" action="/register">
+        <label>Email</label>
+        <input type="email" name="email" required />
+
+        <label>Mot de passe (min 6)</label>
+        <input type="password" name="password" minlength="6" required />
+
+        <button type="submit">Créer le compte</button>
+      </form>
+      <p>Déjà inscrit ? <a href="/login">Se connecter</a></p>
+    </main>
+  </body>
+</html>
