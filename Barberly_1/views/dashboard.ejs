@@ -8,9 +8,30 @@
   </head>
   <body>
     <main class="card">
-      <h1>Bienvenue</h1>
-      <p>Connecté en tant que <strong><%= user.email %></strong></p>
-      <p>Authentification web OK ✅</p>
+      <h1>Bienvenue <%= user.firstName %> 👋</h1>
+      <p class="muted">Connecté en tant que <strong><%= user.role %></strong></p>
+
+      <section class="profile-block">
+        <h2>Profil</h2>
+        <ul>
+          <li><strong>Nom:</strong> <%= user.firstName %> <%= user.lastName %></li>
+          <li><strong>Email:</strong> <%= user.email %></li>
+          <li><strong>Téléphone:</strong> <%= user.phone %></li>
+          <li><strong>Créé le:</strong> <%= user.createdAt %></li>
+        </ul>
+      </section>
+
+      <section class="profile-block">
+        <h2>Etat du compte</h2>
+        <ul>
+          <li><strong>Status:</strong> <%= stats.status %></li>
+          <li><strong>Réservations à venir:</strong> <%= stats.upcomingBookings %></li>
+          <% if (user.role === 'BARBER') { %>
+          <li><strong>Créneaux disponibles aujourd’hui:</strong> <%= stats.availableSlots %></li>
+          <% } %>
+        </ul>
+      </section>
+
       <form method="post" action="/logout">
         <button type="submit">Se déconnecter</button>
       </form>

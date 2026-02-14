@@ -1,6 +1,6 @@
 body {
-  font-family: Arial, sans-serif;
-  background: #f6f7fb;
+  font-family: Inter, Arial, sans-serif;
+  background: linear-gradient(160deg, #f6f7fb, #eef3ff);
   margin: 0;
   min-height: 100vh;
   display: grid;
@@ -8,15 +8,22 @@ body {
 }
 
 .card {
-  background: white;
-  width: min(420px, 92vw);
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  background: #fff;
+  width: min(520px, 92vw);
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(13, 26, 72, 0.12);
   padding: 24px;
 }
 
-h1 {
+h1,
+h2 {
   margin-top: 0;
+  color: #16213e;
+}
+
+h2 {
+  font-size: 18px;
+  margin-bottom: 8px;
 }
 
 label {
@@ -25,7 +32,8 @@ label {
   margin: 12px 0 6px;
 }
 
-input {
+input,
+select {
   width: 100%;
   box-sizing: border-box;
   padding: 10px;
@@ -36,18 +44,67 @@ input {
 button {
   margin-top: 14px;
   width: 100%;
-  padding: 10px;
+  padding: 11px;
   border: 0;
   border-radius: 8px;
   background: #0d6efd;
   color: #fff;
   cursor: pointer;
+  font-weight: 600;
 }
 
 .flash {
-  background: #fff7e0;
-  color: #7a5d00;
-  border: 1px solid #f4dc8d;
   border-radius: 8px;
-  padding: 8px 10px;
+  padding: 10px;
+  margin-bottom: 12px;
+}
+
+.flash.info {
+  background: #eef4ff;
+  color: #1a4fb3;
+  border: 1px solid #cfe0ff;
+}
+
+.flash.success {
+  background: #ecfdf3;
+  color: #1b7f43;
+  border: 1px solid #bfeccc;
+}
+
+.flash.error {
+  background: #fff1f1;
+  color: #b42318;
+  border: 1px solid #ffd1d1;
+}
+
+.muted {
+  color: #58627a;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.checkbox-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.checkbox-line input {
+  width: auto;
+}
+
+.profile-block {
+  border: 1px solid #e5e9f2;
+  border-radius: 10px;
+  padding: 12px;
+  margin: 12px 0;
+}
+
+.profile-block ul {
+  margin: 0;
+  padding-left: 18px;
 }

@@ -8,18 +8,38 @@
   </head>
   <body>
     <main class="card">
-      <h1>Inscription</h1>
-      <% if (message) { %>
-      <p class="flash"><%= message %></p>
+      <h1>Créer un compte Barberly</h1>
+      <% if (flash) { %>
+      <p class="flash <%= flash.type %>"><%= flash.message %></p>
       <% } %>
       <form method="post" action="/register">
+        <div class="grid-2">
+          <div>
+            <label>Prénom</label>
+            <input type="text" name="firstName" required />
+          </div>
+          <div>
+            <label>Nom</label>
+            <input type="text" name="lastName" required />
+          </div>
+        </div>
+
+        <label>Téléphone (ex: +212600000000)</label>
+        <input type="text" name="phone" required />
+
         <label>Email</label>
         <input type="email" name="email" required />
+
+        <label>Type de compte</label>
+        <select name="role">
+          <option value="CLIENT">Client</option>
+          <option value="BARBER">Barbier</option>
+        </select>
 
         <label>Mot de passe (min 6)</label>
         <input type="password" name="password" minlength="6" required />
 
-        <button type="submit">Créer le compte</button>
+        <button type="submit">Continuer (OTP)</button>
       </form>
       <p>Déjà inscrit ? <a href="/login">Se connecter</a></p>
     </main>
