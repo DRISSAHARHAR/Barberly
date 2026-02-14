@@ -40,3 +40,40 @@ Ce projet est aligné sur Expo SDK 54.
 Commandes utiles (dans `apps/mobile`):
 - `npx expo-doctor`
 - `npx expo start --tunnel -c`
+
+### Cas fréquent: "les fichiers à supprimer n'existent pas"
+Ce comportement est normal si l'installation n'a pas encore été faite (ou a échoué avant la création de `node_modules` / `package-lock.json`).
+
+Dans ce cas:
+1. **Ne supprimez rien** si les fichiers n'existent pas.
+2. Lancez directement l'installation.
+
+#### Windows (CMD)
+Depuis la racine du projet:
+
+```bat
+cd C:\chemin\vers\Barberly
+npm install --legacy-peer-deps
+cd apps\mobile
+npm install --legacy-peer-deps
+npx expo-doctor
+npx expo start --tunnel -c
+```
+
+#### Windows (PowerShell)
+Depuis la racine du projet:
+
+```powershell
+Set-Location C:\chemin\vers\Barberly
+npm install --legacy-peer-deps
+Set-Location apps/mobile
+npm install --legacy-peer-deps
+npx expo-doctor
+npx expo start --tunnel -c
+```
+
+Si `expo-doctor` signale encore des versions incorrectes, exécutez ensuite:
+
+```bash
+npx expo install --check
+```
