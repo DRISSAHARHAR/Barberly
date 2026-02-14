@@ -185,3 +185,21 @@ Notes pratiques:
 - **`--localhost`**: utile surtout avec émulateur Android/iOS local.
 - Désactivez VPN/proxy si possible.
 - Autorisez Node.js / Expo CLI dans le firewall Windows.
+
+### Si Expo Go affiche encore "Something went wrong"
+1. Ouvrez **View error log** dans Expo Go.
+2. Vérifiez l'URL API mobile. Dans `apps/mobile`, créez un fichier `.env` avec:
+
+```env
+EXPO_PUBLIC_API_URL=http://VOTRE_IP_LOCALE_PC:3000/api
+```
+
+Exemple: `EXPO_PUBLIC_API_URL=http://192.168.1.20:3000/api`
+
+3. Redémarrez Expo:
+
+```bat
+npm run start:lan -- -c
+```
+
+Si l'erreur persiste, copiez le texte exact du **View error log**.
