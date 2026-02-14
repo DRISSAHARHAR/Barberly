@@ -24,7 +24,7 @@ Digitaliser la réservation coiffure au Maroc avec une expérience simple pour l
 ## Démarrage rapide
 1. Copier les variables d'environnement (`.env.example` et `apps/api/.env.example`).
 2. Installer les dépendances: `make install`
-3. Lancer l'infrastructure: `docker compose up -d`
+3. Lancer l'infrastructure: `docker compose up -d --build`
 4. Lancer les apps: `npm run dev`
 
 ## Commandes utiles
@@ -132,6 +132,38 @@ npm run dev:api
 ```
 
 Si l'écran mobile affiche seulement **"Something went wrong"**, appuyez sur **"View error log"** dans Expo Go et copiez l'erreur exacte.
+
+### Dépannage Docker API / Prisma
+Si vous voyez des erreurs Prisma dans Docker (`@prisma/client did not initialize yet`, OpenSSL, migration engine):
+
+1. Rebuild complet:
+
+```bat
+docker compose down -v
+docker compose up -d --build
+```
+
+2. Vérifier les logs API:
+
+```bat
+docker compose logs -f api
+```
+
+3. Entrer dans le conteneur API (commande fiable avec service name):
+
+```bat
+docker compose exec api sh
+```
+
+4. Vérifier Prisma dans le conteneur:
+
+```sh
+npx prisma generate
+npx prisma migrate deploy
+```
+
+Note: avec `docker compose`, les noms de conteneurs sont souvent `project-api-1`.
+Utilisez donc de préférence `docker compose exec api ...` au lieu de `docker exec -it barber_api ...`.
 
 ### Erreur `ngrok tunnel took too long to connect`
 Cette erreur vient du mode `--tunnel` (réseau lent, ngrok bloqué par firewall/ISP, proxy entreprise).
