@@ -77,3 +77,17 @@ Si `expo-doctor` signale encore des versions incorrectes, exécutez ensuite:
 ```bash
 npx expo install --check
 ```
+
+### Cas ciblé: `@types/react` encore en `18.x`
+Si `expo-doctor` affiche uniquement:
+- attendu: `~19.1.10`
+- trouvé: `18.3.28`
+
+alors vos dépendances locales n'ont pas encore pris la version du `package.json`.
+
+Dans `apps/mobile`:
+
+```bash
+npm install -D @types/react@~19.1.10 --legacy-peer-deps
+npx expo-doctor
+```
