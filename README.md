@@ -91,3 +91,43 @@ Dans `apps/mobile`:
 npm install -D @types/react@~19.1.10 --legacy-peer-deps
 npx expo-doctor
 ```
+
+### Si vous voyez encore les anciennes erreurs (`main` introuvable / TS5098)
+Si votre terminal affiche encore:
+- `ConfigError: Cannot resolve entry file`
+- ou `TS5098` côté API
+
+vous êtes probablement sur un cache local ou des dépendances non rafraîchies.
+
+1. Vérifiez que vous êtes bien à jour (`git pull`).
+2. Réinstallez proprement les dépendances.
+
+#### Réinstallation propre (Windows CMD)
+```bat
+cd C:\chemin\vers\Barberly
+if exist node_modules rmdir /s /q node_modules
+if exist package-lock.json del /f /q package-lock.json
+if exist apps\mobile\node_modules rmdir /s /q apps\mobile\node_modules
+if exist apps\mobile\package-lock.json del /f /q apps\mobile\package-lock.json
+if exist apps\api\node_modules rmdir /s /q apps\api\node_modules
+if exist apps\api\package-lock.json del /f /q apps\api\package-lock.json
+npm install --legacy-peer-deps
+npm install -w apps/mobile --legacy-peer-deps
+npm install -w apps/api --legacy-peer-deps
+```
+
+Puis relancez:
+
+```bat
+cd apps\mobile
+npx expo start --tunnel -c
+```
+
+Dans un second terminal:
+
+```bat
+cd C:\chemin\vers\Barberly
+npm run dev:api
+```
+
+Si l'écran mobile affiche seulement **"Something went wrong"**, appuyez sur **"View error log"** dans Expo Go et copiez l'erreur exacte.
