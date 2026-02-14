@@ -1,7 +1,6 @@
 services:
   postgres:
-    image: postgres:15-alpine
-    container_name: barber_postgres
+    image: postgres:16-alpine
     environment:
       POSTGRES_USER: barber
       POSTGRES_PASSWORD: barber_password
@@ -18,7 +17,6 @@ services:
 
   redis:
     image: redis:7-alpine
-    container_name: barber_redis
     ports:
       - '6379:6379'
     volumes:
@@ -28,7 +26,6 @@ services:
     build:
       context: ./apps/api
       dockerfile: Dockerfile
-    container_name: barber_api
     ports:
       - '3000:3000'
     environment:

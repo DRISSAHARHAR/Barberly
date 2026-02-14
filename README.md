@@ -162,6 +162,13 @@ npx prisma generate
 npx prisma migrate deploy
 ```
 
+5. Si `postgres` sort immédiatement (container exited), faites un reset volume puis rebuild (cas fréquent après changement de version PostgreSQL):
+
+```bat
+docker compose down -v
+docker compose up -d --build
+```
+
 Note: avec `docker compose`, les noms de conteneurs sont souvent `project-api-1`.
 Utilisez donc de préférence `docker compose exec api ...` au lieu de `docker exec -it barber_api ...`.
 
