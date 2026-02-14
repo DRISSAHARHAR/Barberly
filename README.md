@@ -32,3 +32,11 @@ Digitaliser la réservation coiffure au Maroc avec une expérience simple pour l
 - `npm run dev:mobile` : démarre uniquement l'app mobile.
 - `npm run build` : build de tous les workspaces.
 - `npm run typecheck` : vérification TypeScript via Turbo.
+
+## Dépannage Expo (SDK)
+Si Expo Go affiche une erreur d'incompatibilité SDK, assurez-vous que l'app mobile utilise la même version majeure qu'Expo Go.
+Ce projet est aligné sur Expo SDK 54.
+
+Commandes utiles (dans `apps/mobile`):
+- `npx expo-doctor`
+- `npx expo start --tunnel -c`
