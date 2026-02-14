@@ -235,3 +235,17 @@ Assurez-vous d'avoir au moins:
 DATABASE_URL=postgresql://barber:barber_password@localhost:5432/barber_db
 REDIS_URL=redis://localhost:6379
 ```
+
+Si vous avez déjà cloné avant ces corrections, faites une remise à niveau locale:
+
+```bat
+git fetch
+git pull
+rmdir /s /q node_modules
+if exist package-lock.json del /f /q package-lock.json
+rmdir /s /q apps\mobile\node_modules
+rmdir /s /q apps\api\node_modules
+npm install --legacy-peer-deps
+npm install -w apps/mobile --legacy-peer-deps
+npm install -w apps/api --legacy-peer-deps
+```

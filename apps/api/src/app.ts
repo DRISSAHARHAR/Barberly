@@ -22,6 +22,14 @@ for (const envPath of envCandidates) {
   dotenv.config({ path: envPath, override: false });
 }
 
+if (!process.env.DATABASE_URL) {
+  process.env.DATABASE_URL = 'postgresql://barber:barber_password@localhost:5432/barber_db';
+}
+
+if (!process.env.REDIS_URL) {
+  process.env.REDIS_URL = 'redis://localhost:6379';
+}
+
 const app = express();
 
 app.use(helmet());
