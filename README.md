@@ -219,3 +219,19 @@ npm run start:lan -- -c
 ```
 
 Si l'erreur persiste, copiez le texte exact du **View error log**.
+
+Si vous voyez l'erreur `react-native-gesture-handler could not be found`, réinstallez les dépendances mobiles:
+
+```bat
+npm install -w apps/mobile --legacy-peer-deps
+```
+
+### Si `npm run dev:api` dit `DATABASE_URL not found`
+Le serveur API charge automatiquement `.env` puis `.env.development` dans `apps/api`.
+
+Assurez-vous d'avoir au moins:
+
+```env
+DATABASE_URL=postgresql://barber:barber_password@localhost:5432/barber_db
+REDIS_URL=redis://localhost:6379
+```

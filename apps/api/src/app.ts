@@ -1,14 +1,26 @@
-import 'dotenv/config';
 import cors from 'cors';
+import dotenv from 'dotenv';
 import express from 'express';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
+import path from 'path';
 import { prisma } from './config/database';
 import { connectRedis, disconnectRedis } from './config/redis';
 import { errorHandler } from './middleware/error.middleware';
 import authRoutes from './routes/auth.routes';
-import userRoutes from './routes/user.routes';
 import bookingRoutes from './routes/booking.routes';
+import userRoutes from './routes/user.routes';
+
+const envCandidates = [
+  path.resolve(process.cwd(), '.env'),
+  path.resolve(process.cwd(), '.env.development'),
+  path.resolve(__dirname, '../.env'),
+  path.resolve(__dirname, '../.env.development')
+];
+
+for (const envPath of envCandidates) {
+  dotenv.config({ path: envPath, override: false });
+}
 
 const app = express();
 
