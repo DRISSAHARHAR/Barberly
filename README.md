@@ -39,7 +39,8 @@ Ce projet est aligné sur Expo SDK 54.
 
 Commandes utiles (dans `apps/mobile`):
 - `npx expo-doctor`
-- `npx expo start --tunnel -c`
+- `npm run start:lan -- -c` (recommandé)
+- `npm run start:tunnel -- -c` (si LAN impossible)
 
 ### Cas fréquent: "les fichiers à supprimer n'existent pas"
 Ce comportement est normal si l'installation n'a pas encore été faite (ou a échoué avant la création de `node_modules` / `package-lock.json`).
@@ -57,7 +58,7 @@ npm install --legacy-peer-deps
 cd apps\mobile
 npm install --legacy-peer-deps
 npx expo-doctor
-npx expo start --tunnel -c
+npm run start:lan -- -c
 ```
 
 #### Windows (PowerShell)
@@ -69,7 +70,7 @@ npm install --legacy-peer-deps
 Set-Location apps/mobile
 npm install --legacy-peer-deps
 npx expo-doctor
-npx expo start --tunnel -c
+npm run start:lan -- -c
 ```
 
 Si `expo-doctor` signale encore des versions incorrectes, exécutez ensuite:
@@ -120,7 +121,7 @@ Puis relancez:
 
 ```bat
 cd apps\mobile
-npx expo start --tunnel -c
+npm run start:lan -- -c
 ```
 
 Dans un second terminal:
