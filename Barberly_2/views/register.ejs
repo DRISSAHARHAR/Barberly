@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inscription - Barberly_2</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="card">
+      <h1>Créer un compte Barberly</h1>
+      <% if (flash) { %>
+      <p class="flash <%= flash.type %>"><%= flash.message %></p>
+      <% } %>
+      <form method="post" action="/register">
+        <div class="grid-2">
+          <div>
+            <label>Prénom</label>
+            <input type="text" name="firstName" required />
+          </div>
+          <div>
+            <label>Nom</label>
+            <input type="text" name="lastName" required />
+          </div>
+        </div>
+
+        <label>Téléphone (ex: +212600000000)</label>
+        <input type="text" name="phone" required />
+
+        <label>Email</label>
+        <input type="email" name="email" required />
+
+        <label>Type de compte</label>
+        <select name="role">
+          <option value="CLIENT">Client</option>
+          <option value="BARBER">Barbier</option>
+        </select>
+
+        <label>Mot de passe (min 6)</label>
+        <input type="password" name="password" minlength="6" required />
+
+        <button type="submit">Continuer (OTP)</button>
+      </form>
+      <p>Déjà inscrit ? <a href="/login">Se connecter</a></p>
+    </main>
+  </body>
+</html>

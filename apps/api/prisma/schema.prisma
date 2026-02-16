@@ -1,0 +1,213 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  CLIENT
+  BARBER
+  ADMIN
+}
+
+enum UserStatus {
+  PENDING
+  ACTIVE
+  SUSPENDED
+  BANNED
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum BookingServiceMode {
+  HOME
+  SALON
+}
+
+enum BookingPaymentMethod {
+  CASH
+  ONLINE
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+model User {
+  id             String          @id @default(uuid())
+  email          String          @unique
+  phone          String          @unique
+  password       String
+  role           UserRole        @default(CLIENT)
+  status         UserStatus      @default(PENDING)
+  isVerified     Boolean         @default(false)
+  otpCode        String?
+  otpExpiresAt   DateTime?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  lastLoginAt    DateTime?
+
+  profile        Profile?
+  barberProfile  BarberProfile?
+  sessions       Session[]
+  notifications  Notification[]
+  bookings       Booking[]       @relation("ClientBookings")
+  barberBookings Booking[]       @relation("BarberBookings")
+
+  @@index([phone])
+  @@index([email])
+  @@map("users")
+}
+
+model Profile {
+  id          String    @id @default(uuid())
+  userId      String    @unique
+  firstName   String
+  lastName    String
+  avatar      String?
+  dateOfBirth DateTime?
+  gender      Gender?
+  address     String?
+  city        String?
+  coordinates Json?
+
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("profiles")
+}
+
+model BarberProfile {
+  id              String           @id @default(uuid())
+  userId          String           @unique
+  businessName    String
+  description     String?
+  experience      Int?
+  isVerified      Boolean          @default(false)
+  idCardFront     String?
+  idCardBack      String?
+  licenseDocument String?
+  rating          Float            @default(0)
+  reviewCount     Int              @default(0)
+  isAvailable     Boolean          @default(true)
+  workRadius      Int              @default(10)
+  basePrice       Float            @default(50)
+
+  services        BarberService[]
+  availability    Availability[]
+  portfolio       PortfolioImage[]
+
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("barber_profiles")
+}
+
+model BarberService {
+  id          String        @id @default(uuid())
+  barberId    String
+  name        String
+  description String?
+  price       Float
+  duration    Int
+  category    String
+
+  barber      BarberProfile @relation(fields: [barberId], references: [id], onDelete: Cascade)
+
+  @@map("barber_services")
+}
+
+model Availability {
+  id        String        @id @default(uuid())
+  barberId  String
+  dayOfWeek Int
+  startTime String
+  endTime   String
+  isActive  Boolean       @default(true)
+
+  barber    BarberProfile @relation(fields: [barberId], references: [id], onDelete: Cascade)
+
+  @@map("availabilities")
+}
+
+model PortfolioImage {
+  id       String        @id @default(uuid())
+  barberId String
+  imageUrl String
+  caption  String?
+  order    Int           @default(0)
+
+  barber   BarberProfile @relation(fields: [barberId], references: [id], onDelete: Cascade)
+
+  @@map("portfolio_images")
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  userId    String
+  token     String   @unique
+  device    String?
+  ipAddress String?
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  type      String
+  title     String
+  message   String
+  data      Json?
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
+}
+
+model Booking {
+  id            String               @id @default(uuid())
+  clientId      String
+  barberId      String
+  status        BookingStatus        @default(PENDING)
+  serviceType   String
+  serviceMode   BookingServiceMode
+  paymentMethod BookingPaymentMethod
+  paymentStatus PaymentStatus        @default(PENDING)
+  price         Float
+  scheduledAt   DateTime
+  address       String?
+  notes         String?
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
+
+  client        User                 @relation("ClientBookings", fields: [clientId], references: [id])
+  barber        User                 @relation("BarberBookings", fields: [barberId], references: [id])
+
+  @@index([clientId, status])
+  @@index([barberId, status])
+  @@index([scheduledAt])
+  @@map("bookings")
+}

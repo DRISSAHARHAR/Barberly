@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vérification OTP - Barberly_1</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="card">
+      <h1>Vérification OTP</h1>
+      <p class="muted">Email en attente: <strong><%= email %></strong></p>
+      <% if (flash) { %>
+      <p class="flash <%= flash.type %>"><%= flash.message %></p>
+      <% } %>
+      <form method="post" action="/verify-otp">
+        <label>Code OTP (6 chiffres)</label>
+        <input type="text" name="otp" minlength="6" maxlength="6" required />
+        <button type="submit">Vérifier le compte</button>
+      </form>
+    </main>
+  </body>
+</html>

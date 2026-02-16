@@ -1,0 +1,21 @@
+{
+  "name": "barberly-platform",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev --parallel",
+    "dev:api": "npm run dev -w apps/api",
+    "dev:mobile": "cd apps/mobile && npm run start",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck"
+  },
+  "devDependencies": {
+    "turbo": "^2.0.6"
+  }
+}

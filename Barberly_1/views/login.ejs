@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Connexion - Barberly_1</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="card">
+      <h1>Connexion Barberly</h1>
+      <% if (flash) { %>
+      <p class="flash <%= flash.type %>"><%= flash.message %></p>
+      <% } %>
+      <form method="post" action="/login">
+        <label>Email</label>
+        <input type="email" name="email" required />
+
+        <label>Mot de passe</label>
+        <input type="password" name="password" required />
+
+        <label class="checkbox-line">
+          <input type="checkbox" name="rememberMe" /> Se souvenir de moi
+        </label>
+
+        <button type="submit">Se connecter</button>
+      </form>
+      <p>Pas de compte ? <a href="/register">Créer un compte</a></p>
+    </main>
+  </body>
+</html>
